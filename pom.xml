@@ -10,49 +10,68 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <java.version>12</java.version>
+
         <smooks.version>2.0.0-M2</smooks.version>
         <smooks.edifact.cartridge.version>2.0.0-M2</smooks.edifact.cartridge.version>
         <spring.version>5.2.5.RELEASE</spring.version>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>xml-apis</groupId>
-                <artifactId>xml-apis</artifactId>
-                <version>1.4.01</version>
-            </dependency>
-            <dependency>
-                <groupId>org.smooks</groupId>
-                <artifactId>smooks-bom</artifactId>
-                <version>${smooks.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.xmlunit</groupId>
-                <artifactId>xmlunit-core</artifactId>
-                <version>2.8.1</version>
-            </dependency>
-            <dependency>
-                <groupId>hsqldb</groupId>
-                <artifactId>hsqldb</artifactId>
-                <version>1.8.0.10</version>
-            </dependency>
-            <dependency>
-                <groupId>xalan</groupId>
-                <artifactId>xalan</artifactId>
-                <version>2.7.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <!-- release argument for the Java compiler, supported since Java 9 -->
+                        <!-- https://maven.apache.org/plugins/maven-compiler-plugin/compile-mojo.html#release -->
+                        <release>${java.version}</release>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
     <dependencies>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <!-- log4j 2 -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.8.2</version>
+        </dependency>
+        <!-- bridge for log4j and slf4j -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.8.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.smooks.cartridges.edi</groupId>
             <artifactId>smooks-edifact-cartridge</artifactId>
@@ -68,12 +87,6 @@
             <artifactId>edifact-schemas</artifactId>
             <version>${smooks.edifact.cartridge.version}</version>
             <classifier>d03b</classifier>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.4.0-b180830.0359</version>
         </dependency>
 
         <dependency>
